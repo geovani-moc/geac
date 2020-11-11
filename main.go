@@ -1,19 +1,16 @@
 package main
 
 import (
-	"fmt"
+	"log"
 
-	"github.com/geovani-moc/geac/cmd"
+	"github.com/geovani-moc/geac/action"
 )
 
 func main() {
-	var menu cmd.Menu
-	var option int
-	menu.NewMenu()
+	app := action.NewApp()
 
-	for {
-		menu.Print()
-		fmt.Scanf("%d", &option)
-		menu.Select(option)
+	err := app.Run()
+	if nil != err {
+		log.Print("erro ao executar app, ", err)
 	}
 }

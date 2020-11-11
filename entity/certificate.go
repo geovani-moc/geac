@@ -1,8 +1,11 @@
 package entity
 
+import (
+	"image"
+)
+
 //Certificate entity
 type Certificate struct {
-	name  string
-	email string
-	//image image
+	Name  string
+	image image.Image
 }
