@@ -18,3 +18,7 @@ tmp/
 
 #variaveis de ambiente
 .env
+
+#arquivo de configuração
+.config.json
+.config

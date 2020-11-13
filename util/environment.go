@@ -1,29 +1,49 @@
 package util
 
 import (
-	"fmt"
+	"encoding/json"
 	"io/ioutil"
 	"log"
-
-	"github.com/geovani-moc/geac/entity"
-	"github.com/joho/godotenv"
+	"os"
 )
 
-//LoadEnv load variables environment
-func LoadEnv() {
-	err := godotenv.Load(".env") // fazer tratamento de erro caso o arquivo nao exista
-	if nil != err {
-		log.Print("Erro ao carregar variaveis de ambiente, ", err)
-	}
+//Configuration struct
+type Configuration struct {
+	User     string
+	Password string
 }
 
-//StoreEnv store env file
-func StoreEnv(env entity.User) {
-	out := fmt.Sprintf("EMAIL_USER=%v\n", env.User)
-	out += fmt.Sprintf("EMAIL_PASSWORD=%v\n", env.Password)
+//LoadConfig load configuration variables
+func LoadConfig(path string) (*Configuration, error) {
+	var config Configuration
+	file, err := os.Open(path)
+	if nil != err {
+		log.Print("Erro ao abrir arquivo de configuração, ", err)
+		return nil, err
+	}
+	decoder := json.NewDecoder(file)
+	err = decoder.Decode(&config)
+	if nil != err {
+		log.Print("Erro ao decodificar arquivo de configuração, ", err)
+		return nil, err
+	}
 
-	err := ioutil.WriteFile(".env", []byte(out), 0644)
+	return &config, nil
+}
+
+//StoreConfig store config file
+func StoreConfig(path string, config *Configuration) error {
+	file, err := json.Marshal(*config)
+	if nil != err {
+		log.Print("Erro ao salvar arquivo de configuraçoes, ", err)
+		return err
+	}
+
+	err = ioutil.WriteFile(path, file, 0644)
 	if nil != err {
 		log.Print("erro ao escrever aquivo, ", err)
+		return err
 	}
+
+	return nil
 }

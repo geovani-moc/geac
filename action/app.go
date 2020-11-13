@@ -2,7 +2,9 @@ package action
 
 import (
 	"fmt"
-	"os"
+	"log"
+
+	"github.com/geovani-moc/geac/util"
 
 	"github.com/geovani-moc/geac/cmd"
 	"github.com/geovani-moc/geac/entity"
@@ -10,19 +12,23 @@ import (
 
 //App strucut
 type App struct {
-	to       []entity.Email
-	user     string
-	password string
+	To      []entity.Email
+	Subject string
+	Config  *util.Configuration
 }
 
 var _app *App
 
 //NewApp create a new app case no exists
 func NewApp() *App {
+	var err error
 	if _app == nil {
 		_app = &App{
-			user:     os.Getenv("EMAIL_USER"),
-			password: os.Getenv("EMAIL_PASSWORD"),
+			Subject: getSubject(),
+		}
+		_app.Config, err = util.LoadConfig(".config")
+		if nil != err {
+			log.Fatal(err)
 		}
 	}
 	return _app
@@ -43,4 +49,11 @@ func (app *App) Run() error {
 	}
 
 	return nil
+}
+
+func getSubject() string {
+	var subject string
+	fmt.Scan(&subject)
+
+	return subject
 }
