@@ -25,6 +25,7 @@ func NewApp() *App {
 	if _app == nil {
 		_app = &App{
 			Subject: getSubject(),
+			//Bobdy: getBody(),
 		}
 		_app.Config, err = util.LoadConfig(".config")
 		if nil != err {

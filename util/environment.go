@@ -11,6 +11,8 @@ import (
 type Configuration struct {
 	User     string
 	Password string
+	SMTPHost string
+	SMTPPort string
 }
 
 //LoadConfig load configuration variables
