@@ -27,7 +27,7 @@ func NewApp() *App {
 			Subject: getSubject(),
 			//Bobdy: getBody(),
 		}
-		_app.Config, err = util.LoadConfig(".config")
+		_app.Config, err = util.LoadConfig(".config.json")
 		if nil != err {
 			log.Fatal(err)
 		}
@@ -37,6 +37,7 @@ func NewApp() *App {
 
 //Run init the app
 func (app *App) Run() error {
+
 	var menu cmd.Menu
 	var option int
 	notExit := true
@@ -54,6 +55,7 @@ func (app *App) Run() error {
 
 func getSubject() string {
 	var subject string
+	fmt.Print("Assunto do email: ")
 	fmt.Scan(&subject)
 
 	return subject
